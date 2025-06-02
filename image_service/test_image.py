@@ -2,8 +2,8 @@ from histocartography.preprocessing import NucleiExtractor, DeepFeatureExtractor
 import numpy as np
 from PIL import Image
 
-nuclei_detector = NucleiExtractor()
-feature_extractor = DeepFeatureExtractor(architecture='resnet34', patch_size=72)
+nuclei_detector = NucleiExtractor(batch_size=8)
+feature_extractor = DeepFeatureExtractor(architecture='resnet34', batch_size=8, patch_size=72)
 knn_graph_builder = KNNGraphBuilder(k=5, thresh=50, add_loc_feats=True)
 
 image = np.array(Image.open('demo_HNE.png'))
