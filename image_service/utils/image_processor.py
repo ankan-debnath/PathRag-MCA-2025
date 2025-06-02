@@ -14,8 +14,8 @@ class Image_Processor:
         # Initialize tools
         self.NUCLEI_THRESHOLD = 5
         self.stain_normalizer = MacenkoStainNormalizer()
-        self.nuclei_detector = NucleiExtractor()
-        self.feature_extractor = DeepFeatureExtractor(architecture='resnet34', patch_size=72)
+        self.nuclei_detector = NucleiExtractor(batch_size=8)
+        self.feature_extractor = DeepFeatureExtractor(architecture='resnet34', batch_size=8, patch_size=72)
         self.knn_graph_builder = KNNGraphBuilder(k=5, thresh=50, add_loc_feats=True)
 
     def count_nuclei(self, nuclei_map):
