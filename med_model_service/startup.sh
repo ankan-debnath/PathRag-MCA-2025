@@ -2,6 +2,4 @@
 
 pip install uv
 uv venv venv
-
-uv pip install --force-reinstall --no-cache-dir -r requirements.txt
-
+uv pip install --system --requirements requirements.txt
