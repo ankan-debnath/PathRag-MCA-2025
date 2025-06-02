@@ -8,4 +8,4 @@ RUN pip install --default-timeout=10000 git+https://github.com/ankan-debnath/his
 COPY . /app
 WORKDIR /app
 
-CMD ["python", "script.py", "check_model.py","test_image.py"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
