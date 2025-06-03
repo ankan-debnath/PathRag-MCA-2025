@@ -36,3 +36,7 @@ def chatbot():
         med_responces.append(answer)
 
     return jsonify( { 'response' : med_responces } )
+
+@app.route("/", methods=["GET"])
+def index():
+    return "Med model server is running"
