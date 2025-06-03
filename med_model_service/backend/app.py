@@ -2,8 +2,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 
-from .llava_med import model as med_model
-
 app = Flask(__name__)
 CORS(app)
 
@@ -14,6 +12,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route('/response', methods=['POST']) #
 def chatbot():
+    from .llava_med import model as med_model
     data = request.form
     message = str(data['message'])
     chat_history = data['chat_history']
@@ -36,3 +35,7 @@ def chatbot():
         med_responces.append(answer)
 
     return jsonify( { 'response' : med_responces } )
+
+@app.route("/", methods=["GET"])
+def index():
+    return "Med model server is running"
