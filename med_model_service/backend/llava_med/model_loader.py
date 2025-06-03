@@ -12,7 +12,8 @@ def get_model_components():
         tokenizer, model, image_processor, context_len = load_pretrained_model(
             model_path='microsoft/llava-med-v1.5-mistral-7b',
             model_base=None,
-            model_name='llava-med-v1.5-mistral-7b'
+            model_name='llava-med-v1.5-mistral-7b',
+            load_8bit=True
         )
 
         _model_cache["components"] = (tokenizer, model, image_processor, context_len)
