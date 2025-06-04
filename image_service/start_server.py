@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-AUTH_TOKEN = os.getenv("NGROCK_AUTH_TOKEN")
+AUTH_TOKEN = os.getenv("NGROK_AUTH_TOKEN")
 
 nest_asyncio.apply()
 ngrok.set_auth_token(AUTH_TOKEN)
@@ -17,7 +17,7 @@ def run_gunicorn():
     # Run gunicorn for your Flask app
     subprocess.run([
         "gunicorn",
-        "backend.app:app",
+        "app:app",
         "--bind", "0.0.0.0:5000"
     ])
 
