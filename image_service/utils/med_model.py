@@ -22,7 +22,7 @@ def get_response(message, images_path=None):
     try:
         response = requests.post(MED_SERVICE_URI+"/response", data=data, files=files)
 
-        for _, (fname, fobj, _) in files:
+        for _, (fname, fobj) in files:
             fobj.close()
 
         if response.status_code == 200:
