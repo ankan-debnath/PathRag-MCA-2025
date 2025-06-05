@@ -11,7 +11,6 @@ UPLOAD_FOLDER = 'temp_uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
-
 @app.route('/response', methods=['POST'])
 def chatbot():
     try:
@@ -43,3 +42,7 @@ def chatbot():
     except Exception as e:
         print("Error:", e)
         return jsonify({"error": str(e)}), 500
+
+@app.route("/", methods=["GET"])
+def index():
+    return "Med model server is running"
