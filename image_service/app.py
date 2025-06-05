@@ -33,10 +33,10 @@ def chatbot():
         if classification == "pathology":
             image_processor.generate_patches(filepath, UPLOAD_FOLDER)
 
-        for image_name in os.listdir(UPLOAD_FOLDER):
-            image_path = os.path.join(UPLOAD_FOLDER, image_name)
-            answer = med_model.get_response(message, image_path)   #not implemented yet
-            med_responses.append({image_name: answer})
+        images_path = os.path.join(UPLOAD_FOLDER)
+        answer = med_model.get_response(message, images_path)   #not implemented yet
+        med_responses.append(answer)
+
     else:
         answer = med_model.get_response(message)
         med_responses.append(answer)

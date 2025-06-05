@@ -21,16 +21,17 @@ def chatbot():
     input_ids, attention_mask = med_model.create_conversations(message)
 
     if 'image' in request.files:
-        file = request.files['image']
-        filename = "image.png"
-        filepath = os.path.join(UPLOAD_FOLDER, filename)
-        file.save(filepath)
+        files = request.files.getlist("image")
 
-        for image_name in os.listdir(UPLOAD_FOLDER):
-            image_path = os.path.join(UPLOAD_FOLDER, image_name)
+        for idx, file in enumerate(files):
+            filename = f"image_{idx}.png"
+            filepath = os.path.join(UPLOAD_FOLDER, filename)
+            file.save(filepath)
+
+            image_path = os.path.join(UPLOAD_FOLDER, filepath)
             image_tensor = med_model.get_image_tensors(image_path)
             answer = med_model.generate_response(input_ids, attention_mask, image_tensor)
-            med_responces.append({image_path : answer})
+            med_responces.append({ filename : answer })
     else:
         answer = med_model.generate_response(input_ids, attention_mask)
         med_responces.append(answer)
