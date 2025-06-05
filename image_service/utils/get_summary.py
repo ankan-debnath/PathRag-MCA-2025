@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def get_summarised_response(image_analysis_data, history_str):
+def get_summarised_response(question, image_analysis_data, history_str):
     # Combine image descriptions into a formatted string
     formatted_image_info = "\n".join(
         [f"{filename}:\n{description}" for item in image_analysis_data for filename, description in item.items()]
@@ -22,12 +22,15 @@ def get_summarised_response(image_analysis_data, history_str):
 
     # Define the prompt
     prompt_template = PromptTemplate(
-        input_variables=["image_info", "history"],
+        input_variables=["question", "image_info", "history"],
         template="""
         You are a medical pathology assistant AI.
+        Bellow is the prompt to be answered.
+        Prompt:
+        {qestion}
         
         Below are descriptions of histopathology image patches. Each description corresponds to an image filename. Analyze all the provided information and produce a overall summary of the pathological findings across the images.
-        Without mentioning any image or patch name.
+        Without mentioning any image or patch name or descriptions.
         
         Descriptions:
         {image_info}
@@ -41,7 +44,8 @@ def get_summarised_response(image_analysis_data, history_str):
     # Run the chain
     response = chain.run({
         "image_info": formatted_image_info,
-        "history": history_str
+        "history": history_str,
+        "question": question
     })
 
     return response
