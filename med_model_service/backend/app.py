@@ -19,6 +19,7 @@ def chatbot():
     chat_history = data['chat_history']
     med_responces = []
     input_ids, attention_mask = med_model.create_conversations(message)
+    print(request.files)
 
     if 'image' in request.files:
         files = request.files.getlist("image")
