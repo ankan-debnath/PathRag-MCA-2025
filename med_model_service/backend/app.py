@@ -12,33 +12,34 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
 
-@app.route('/response', methods=['POST']) #
+@app.route('/response', methods=['POST'])
 def chatbot():
-    data = request.form
-    message = str(data['message'])
-    chat_history = data['chat_history']
-    med_responces = []
-    input_ids, attention_mask = med_model.create_conversations(message)
-    print(request.files)
+    try:
+        data = request.form
+        message = str(data['message'])
+        chat_history = data.get('chat_history', '')
+        med_responces = []
 
-    # if 'image' in request.files:
-    #     files = request.files.getlist("image")
-    #
-    #     for idx, file in enumerate(files):
-    #         filename = f"image_{idx}.png"
-    #         filepath = os.path.join(UPLOAD_FOLDER, filename)
-    #         file.save(filepath)
-    #
-    #         image_path = os.path.join(UPLOAD_FOLDER, filepath)
-    #         image_tensor = med_model.get_image_tensors(image_path)
-    #         answer = med_model.generate_response(input_ids, attention_mask, image_tensor)
-    #         med_responces.append({ filename : answer })
-    # else:
-    #     answer = med_model.generate_response(input_ids, attention_mask)
-    #     med_responces.append(answer)
+        input_ids, attention_mask = med_model.create_conversations(message)
+        print("FILES:", request.files)
 
-    return jsonify( { 'response' : "med_responces" } )
+        if 'image' in request.files:
+            files = request.files.getlist("image")
 
-@app.route("/", methods=["GET"])
-def index():
-    return "Med model server is running"
+            for idx, file in enumerate(files):
+                filename = f"image_{idx}.png"
+                filepath = os.path.join(UPLOAD_FOLDER, filename)
+                file.save(filepath)
+
+                image_tensor = med_model.get_image_tensors(filepath)
+                answer = med_model.generate_response(input_ids, attention_mask, image_tensor)
+                med_responces.append({filename: answer})
+        else:
+            answer = med_model.generate_response(input_ids, attention_mask)
+            med_responces.append(answer)
+
+        return jsonify({'response': med_responces})
+
+    except Exception as e:
+        print("Error:", e)
+        return jsonify({"error": str(e)}), 500
