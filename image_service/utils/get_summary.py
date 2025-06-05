@@ -26,7 +26,8 @@ def get_summarised_response(image_analysis_data, history_str):
         template="""
         You are a medical pathology assistant AI.
         
-        Below are descriptions of histopathology image patches. Each description corresponds to an image filename. Analyze all the provided information and produce a **concise overall summary** of the pathological findings across the images.
+        Below are descriptions of histopathology image patches. Each description corresponds to an image filename. Analyze all the provided information and produce a overall summary of the pathological findings across the images.
+        Without mentioning any image or patch name.
         
         Descriptions:
         {image_info}
