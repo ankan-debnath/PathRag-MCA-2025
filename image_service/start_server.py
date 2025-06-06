@@ -14,23 +14,23 @@ load_dotenv()
 
 # nest_asyncio.apply()
 
-def run_gunicorn():
-    # Using subprocess.Popen instead of run, so it's non-blocking
-    process = subprocess.Popen([
-        "gunicorn",
-        "app:app",
-        "--bind", "0.0.0.0:5000",
-        "--timeout", "120"
-    ])
-    # Wait for the process to complete (it won't until killed)
-    process.communicate()
-
-# Start Gunicorn in a thread (not daemon, so it keeps running)
-gunicorn_thread = threading.Thread(target=run_gunicorn)
-gunicorn_thread.start()
-
-# Wait a few seconds to let Gunicorn start
-time.sleep(5)
+# def run_gunicorn():
+#     # Using subprocess.Popen instead of run, so it's non-blocking
+#     process = subprocess.Popen([
+#         "gunicorn",
+#         "app:app",
+#         "--bind", "0.0.0.0:5000",
+#         "--timeout", "120"
+#     ])
+#     # Wait for the process to complete (it won't until killed)
+#     process.communicate()
+#
+# # Start Gunicorn in a thread (not daemon, so it keeps running)
+# gunicorn_thread = threading.Thread(target=run_gunicorn)
+# gunicorn_thread.start()
+#
+# # Wait a few seconds to let Gunicorn start
+# time.sleep(5)
 
 # # Open ngrok tunnel on port 5000
 # public_url = ngrok.connect(5000)
@@ -43,3 +43,14 @@ time.sleep(5)
 # except KeyboardInterrupt:
 #     print("Shutting down.")
 #     ngrok.kill()
+
+def run_gunicorn():
+    # Run gunicorn for your Flask app
+    subprocess.run([
+        "gunicorn",
+        "app:app",
+        "--bind", "0.0.0.0:8000",
+        "--timeout", "120"
+    ])
+
+threading.Thread(target=run_gunicorn, daemon=True).start()
