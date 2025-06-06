@@ -49,7 +49,7 @@ def run_gunicorn():
     subprocess.run([
         "gunicorn",
         "app:app",
-        "--bind", "0.0.0.0:8000",
+        "--bind", "0.0.0.0:5000",
         "--timeout", "120"
     ])
 
